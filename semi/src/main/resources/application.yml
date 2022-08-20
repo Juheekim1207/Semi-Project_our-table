@@ -1,0 +1,15 @@
+server:
+  port: 9000
+spring:
+  devtools:
+    livereload:
+      enabled: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://spoonsemiproject.c8g4wislhsyf.ap-northeast-2.rds.amazonaws.com:3306/spoon?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: admin
+    password: spoon123
+mybatis:
+  type-aliases-package: data.mapper,data.dto
+  mapper-locations:
+  - /mapper/**/*.xml

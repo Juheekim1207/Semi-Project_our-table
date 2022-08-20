@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="data.mapper.RecipeMapperInter">
+
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*) FROM Recipe
+	</select>
+	<select id="getAllRecipe" resultType="recipe">
+		SELECT * FROM Recipe
+	</select>
+	<select id="getRecipeList" parameterType="Map" resultType="recipe">
+		SELECT * FROM Recipe LIMIT #{startnum}, #{limit}
+	</select>
+	<select id="getRecipe" parameterType="int" resultType="recipe">
+		SELECT * FROM Recipe WHERE RECIPE_IDX = #{idx}
+	</select>
+	<select id="getRecipeRec" parameterType="int" resultType="int">
+		SELECT total_recom FROM Recipe WHERE RECIPE_IDX = #{idx}
+	</select>
+	<select id="getRecipeRate" parameterType="int" resultType="int">
+		SELECT total_rate FROM Recipe WHERE RECIPE_IDX = #{idx}
+	</select>
+	<select id="getRecipeVolunteer" parameterType="int" resultType="int">
+		SELECT total_volunteer FROM Recipe WHERE RECIPE_IDX = #{idx}
+	</select>
+	
+	<update id="addRecommend" parameterType="int">
+		UPDATE Recipe SET total_recom = total_recom + 1 WHERE RECIPE_IDX=#{idx}
+	</update>
+	<update id="addRate" parameterType="Map">
+		UPDATE Recipe SET total_volunteer = total_volunteer + 1, total_rate = total_rate + #{rate} WHERE RECIPE_IDX=#{idx}
+	</update>
+	<update id="addView" parameterType="int">
+		UPDATE Recipe SET viewCount = viewCount + 1 WHERE RECIPE_IDX=#{idx}
+	</update>
+	
+	<update id="updateRecipe" parameterType="recipe">
+		UPDATE Recipe SET name = #{name}, intro = #{intro}, category = #{category}, main_ing = #{main_ing}, cooking = #{cooking}, portion = #{portion}, level = #{level}, main_photo = #{main_photo}, complete_photo = #{complete_photo}, tags = #{tags} WHERE RECIPE_IDX = #{RECIPE_IDX}
+	</update>
+	
+	<delete id="deleteRecipe" parameterType="int">
+		DELETE FROM Recipe WHERE RECIPE_IDX=#{idx}
+	</delete>
+	
+	<select id="findCategory" parameterType="String" resultType="recipe">
+		SELECT * FROM Recipe WHERE category = #{category}
+	</select>
+	<select id="findCooking" parameterType="String" resultType="recipe">
+		SELECT * FROM Recipe WHERE cooking = #{cooking}
+	</select>
+	
+	<select id="getRankingList" parameterType="Map" resultType="recipe">
+		SELECT * FROM Recipe ORDER BY total_recom DESC LIMIT #{startnum}, #{limit}
+	</select>
+
+	<select id="searchRecipe" parameterType="String" resultType="Integer">
+		SELECT RECIPE_IDX from Recipe where instr(name, #{searchWord})
+	</select>
+	
+	<select id="getViewRankingList" parameterType="Map" resultType="recipe">
+		SELECT * FROM Recipe ORDER BY viewCount DESC LIMIT #{startnum}, #{limit}
+	</select>
+	
+	<select id="getNewRankingList" parameterType="Map" resultType="recipe">
+		SELECT * FROM Recipe ORDER BY RECIPE_IDX DESC LIMIT #{startnum}, #{limit}
+	</select>
+	
+	<select id="getCategoryList" resultType="recipe">
+		SELECT * FROM Recipe WHERE ${category} = #{item} LIMIT #{startnum}, #{limit}
+	</select>
+	<select id="getCategoryCount" resultType="int">
+		SELECT COUNT(*) FROM Recipe WHERE ${category} = #{item}
+	</select>
+	
+</mapper>
